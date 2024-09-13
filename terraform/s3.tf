@@ -1,14 +1,13 @@
-resource "aws_s3_bucket" "my_bucket" {
+resource "aws_s3_bucket" "main" {
   bucket = var.s3_bucket_name
 
   tags = {
-    Name        = "MyS3Bucket"
-    Environment = "Dev"
+    Name        = var.s3_bucket_name
   }
 }
 
 resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket = aws_s3_bucket.my_bucket.id
+  bucket = aws_s3_bucket.main.id
 
   block_public_acls   = true
   block_public_policy = true
