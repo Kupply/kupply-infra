@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: "Terraform"
 
 on:
   pull_request:
@@ -13,13 +13,14 @@ permissions:
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: "Terraform"
     runs-on: ubuntu-latest
     environment: production
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
+        working-directory: ./terraform
         shell: bash
 
     steps:
@@ -35,11 +36,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-#      Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-#      - name: Setup Terraform
-#        uses: hashicorp/setup-terraform@v1
-#        with:
-#          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      #      Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      #      - name: Setup Terraform
+      #        uses: hashicorp/setup-terraform@v1
+      #        with:
+      #          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
@@ -51,10 +52,24 @@ jobs:
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
+        env:
+          TF_VAR_AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
+          TF_VAR_AMI: ${{ secrets.TF_VAR_AMI }}
+          TF_VAR_INSTANCE_TYPE: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
+          TF_VAR_S3_BUCKET_NAME: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
+          TF_VAR_BACKEND_BUCKET_NAME: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
+          TF_VAR_BACKEND_TABLE_NAME: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud".
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          TF_VAR_AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
+          TF_VAR_AMI: ${{ secrets.TF_VAR_AMI }}
+          TF_VAR_INSTANCE_TYPE: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
+          TF_VAR_S3_BUCKET_NAME: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
+          TF_VAR_BACKEND_BUCKET_NAME: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
+          TF_VAR_BACKEND_TABLE_NAME: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform apply -auto-approve -input=false
