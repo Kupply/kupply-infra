@@ -10,9 +10,9 @@ resource "aws_s3_bucket_versioning" "versioning" {
 }
 
 resource "aws_dynamodb_table" "backend" {
-  name           = var.backend_table_name
-  hash_key       = "LockID"
-  billing_mode   = "PAY_PER_REQUEST"
+  name         = var.backend_table_name
+  hash_key     = "LockID"
+  billing_mode = "PAY_PER_REQUEST"
 
   attribute {
     name = "LockID"

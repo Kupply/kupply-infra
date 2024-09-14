@@ -5,7 +5,7 @@ terraform {
       version = "~> 4.0"
     }
   }
-  backend s3 {
+  backend "s3" {
     bucket         = var.backend_bucket_name
     key            = "terraform/terraform.tfstate" # path for tfstate file
     region         = var.aws_region
