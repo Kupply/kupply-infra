@@ -53,12 +53,12 @@ jobs:
       # Generates an execution plan for Terraform
       - name: Terraform Plan
         env:
-          TF_VAR_AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
-          TF_VAR_AMI: ${{ secrets.TF_VAR_AMI }}
-          TF_VAR_INSTANCE_TYPE: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
-          TF_VAR_S3_BUCKET_NAME: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
-          TF_VAR_BACKEND_BUCKET_NAME: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
-          TF_VAR_BACKEND_TABLE_NAME: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
+          TF_VAR_aws_region: ${{ secrets.TF_VAR_AWS_REGION }}
+          TF_VAR_ami: ${{ secrets.TF_VAR_AMI }}
+          TF_VAR_instance_type: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
+          TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
+          TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
+          TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
@@ -66,10 +66,10 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
-          TF_VAR_AWS_REGION: ${{ secrets.TF_VAR_AWS_REGION }}
-          TF_VAR_AMI: ${{ secrets.TF_VAR_AMI }}
-          TF_VAR_INSTANCE_TYPE: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
-          TF_VAR_S3_BUCKET_NAME: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
-          TF_VAR_BACKEND_BUCKET_NAME: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
-          TF_VAR_BACKEND_TABLE_NAME: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
+          TF_VAR_aws_region: ${{ secrets.TF_VAR_AWS_REGION }}
+          TF_VAR_ami: ${{ secrets.TF_VAR_AMI }}
+          TF_VAR_instance_type: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
+          TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
+          TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
+          TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform apply -auto-approve -input=false
