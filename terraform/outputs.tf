@@ -8,14 +8,6 @@ output "ec2_public_ip" {
   description = "The public IP of the EC2 instance"
 }
 
-output "frontend_dns" {
-  value = aws_route53_record.frontend_record.fqdn
-}
-
-output "backend_dns" {
-  value = aws_route53_record.backend_record.fqdn
-}
-
 # S3 Outputs
 output "s3_bucket_name" {
   value       = aws_s3_bucket.main.bucket
