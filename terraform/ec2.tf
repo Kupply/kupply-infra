@@ -1,6 +1,13 @@
-resource "aws_instance" "my_ec2_instance" {
+resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
+  subnet_id     = aws_subnet.public.id
+
+  security_groups = [aws_security_group.allow_web.name]
+
+  tags = {
+    Name = "kupply-app"
+  }
 
   user_data = <<-EOF
               #!/bin/bash
@@ -10,43 +17,4 @@ resource "aws_instance" "my_ec2_instance" {
               sudo usermod -aG docker ec2-user
               # Additional configuration steps...
               EOF
-
-  tags = {
-    Name = "MyEC2WithDockerAndSSL"
-  }
-
-  vpc_security_group_ids = [aws_security_group.my_sg.id]
-}
-
-resource "aws_security_group" "my_sg" {
-  name        = "allow_http_https"
-  description = "Allow HTTP and HTTPS inbound traffic"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
