@@ -19,13 +19,8 @@ output "s3_user_access_key" {
   description = "Access key for the IAM user"
 }
 
-resource "null_resource" "encrypt_secret" {
-  provisioner "local-exec" {
-    command = "echo ${aws_iam_access_key.s3_user_access_key.secret} | openssl enc -aes-256-cbc -a -salt -pass pass:${var.encryption_key} > encrypted_secret_key.txt"
-  }
-}
-
-output "encrypted_s3_user_secret_key" {
-  value       = file("encrypted_secret_key.txt")
-  description = "Encrypted Secret access key for the IAM user"
+output "s3_user_secret_key" {
+  value       = aws_iam_access_key.s3_user_access_key.secret
+  description = "Secret access key for the IAM user"
+  sensitive   = true
 }
