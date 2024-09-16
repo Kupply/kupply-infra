@@ -11,9 +11,12 @@ resource "aws_instance" "main" {
 
   user_data = <<-EOF
               #!/bin/bash
+              # Install Docker
               sudo yum update -y
               sudo yum install docker -y
               sudo service docker start
               sudo usermod -aG docker ec2-user
+              # Install Nginx
+              sudo yum install nginx -y
               EOF
 }
