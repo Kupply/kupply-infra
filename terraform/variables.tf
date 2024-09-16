@@ -22,13 +22,3 @@ variable "s3_bucket_name" {
   description = "The name of the S3 bucket"
   type        = string
 }
-
-variable "backend_bucket_name" {
-  description = "The name of the S3 bucket for terraform backend"
-  type        = string
-}
-
-variable "backend_table_name" {
-  description = "The name of the DynamoDB table for terraform backend"
-  type        = string
-}
