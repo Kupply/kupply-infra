@@ -38,15 +38,12 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init
-
-      # - name: Terraform Init
-      #   run: |
-      #     terraform init \
-      #     -backend-config="bucket=${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}" \
-      #     -backend-config="key=${{ secrets.BACKEND_KEY }}" \
-      #     -backend-config="region=${{ secrets.AWS_REGION }}" \
-      #     -backend-config="dynamodb_table=${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}" || exit 1
+        run: |
+          terraform init \
+          -backend-config="bucket=${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}" \
+          -backend-config="key=${{ secrets.BACKEND_KEY }}" \
+          -backend-config="region=${{ secrets.AWS_REGION }}" \
+          -backend-config="dynamodb_table=${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}" || exit 1
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
