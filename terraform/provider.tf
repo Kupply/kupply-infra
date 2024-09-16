@@ -5,13 +5,12 @@ terraform {
       version = "~> 5"
     }
   }
-  # backend "s3" {
-  #   bucket         = var.backend_bucket_name
-  #   key            = "terraform/terraform.tfstate" # path for tfstate file
-  #   region         = var.aws_region
-  #   dynamodb_table = var.backend_table_name
-  # }
-  # TODO: After first deploy
+  backend "s3" {
+    bucket         = var.backend_bucket_name
+    key            = "terraform/terraform.tfstate" # path for tfstate file
+    region         = var.aws_region
+    dynamodb_table = var.backend_table_name
+  }
 }
 
 provider "aws" {
