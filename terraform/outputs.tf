@@ -26,6 +26,6 @@ resource "null_resource" "encrypt_secret" {
 }
 
 output "encrypted_s3_user_secret_key" {
-  value = file("encrypted_secret_key.txt")
+  value       = file("encrypted_secret_key.txt")
   description = "Encrypted Secret access key for the IAM user"
 }
