@@ -40,10 +40,10 @@ jobs:
       - name: Terraform Init
         run: |
           terraform init \
-          -backend-config="bucket=${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}" \
+          -backend-config="bucket=${{ secrets.BACKEND_BUCKET_NAME }}" \
           -backend-config="key=${{ secrets.BACKEND_KEY }}" \
           -backend-config="region=${{ secrets.AWS_REGION }}" \
-          -backend-config="dynamodb_table=${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}" || exit 1
+          -backend-config="dynamodb_table=${{ secrets.BACKEND_TABLE_NAME }}" || exit 1
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
@@ -57,8 +57,6 @@ jobs:
           TF_VAR_instance_type: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
           TF_VAR_subnet_az: ${{ secrets.TF_VAR_SUBNET_AZ }}
           TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
-          TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
-          TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
@@ -71,6 +69,10 @@ jobs:
           TF_VAR_instance_type: ${{ secrets.TF_VAR_INSTANCE_TYPE }}
           TF_VAR_subnet_az: ${{ secrets.TF_VAR_SUBNET_AZ }}
           TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
-          TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
-          TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
         run: terraform apply -auto-approve -input=false
+
+      - name: Encrypt and Show IAM Secret Access Key
+        run: |
+          s3_secret_key=$(terraform output -raw s3_user_secret_key)
+          encrypted_secret=$(echo $s3_secret_key | openssl enc -aes-256-cbc -a -salt -pass pass:${{ secrets.ENCRYPTION_KEY }})
+          echo "Encrypted secret: $encrypted_secret"
