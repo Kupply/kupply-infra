@@ -3,7 +3,7 @@ resource "aws_instance" "main" {
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
 
-  security_groups = [aws_security_group.allow_web.name]
+  security_groups = [aws_security_group.allow_web.id]
 
   tags = {
     Name = "kupply-app"
