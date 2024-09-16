@@ -36,15 +36,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      #      Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-      #      - name: Setup Terraform
-      #        uses: hashicorp/setup-terraform@v1
-      #        with:
-      #          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
+
+      # - name: Terraform Init
+      #   run: |
+      #     terraform init \
+      #     -backend-config="bucket=${{ secrets.BACKEND_BUCKET_NAME }}" \
+      #     -backend-config="key=${{ secrets.BACKEND_KEY }}" \
+      #     -backend-config="region=${{ secrets.AWS_REGION }}" \
+      #     -backend-config="dynamodb_table=${{ secrets.BACKEND_DYNAMODB_TABLE_NAME }}" || exit 1
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
