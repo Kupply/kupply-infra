@@ -59,6 +59,7 @@ jobs:
           TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
           TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
           TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
+          TF_VAR_encryption_key: ${{ secrets.TF_VAR_ENCRYPTION_KEY }}
         run: terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
@@ -73,4 +74,5 @@ jobs:
           TF_VAR_s3_bucket_name: ${{ secrets.TF_VAR_S3_BUCKET_NAME }}
           TF_VAR_backend_bucket_name: ${{ secrets.TF_VAR_BACKEND_BUCKET_NAME }}
           TF_VAR_backend_table_name: ${{ secrets.TF_VAR_BACKEND_TABLE_NAME }}
+          TF_VAR_encryption_key: ${{ secrets.TF_VAR_ENCRYPTION_KEY }}
         run: terraform apply -auto-approve -input=false

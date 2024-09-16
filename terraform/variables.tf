@@ -32,3 +32,8 @@ variable "backend_table_name" {
   description = "The name of the DynamoDB table for terraform backend"
   type        = string
 }
+
+variable "encryption_key" {
+  description = "key for IAM secret key encryption"
+  type        = string
+}
