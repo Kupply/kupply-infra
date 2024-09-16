@@ -12,9 +12,8 @@ resource "aws_instance" "main" {
   user_data = <<-EOF
               #!/bin/bash
               sudo yum update -y
-              sudo amazon-linux-extras install docker -y
+              sudo yum install docker -y
               sudo service docker start
               sudo usermod -aG docker ec2-user
-              # Additional configuration steps...
               EOF
 }
