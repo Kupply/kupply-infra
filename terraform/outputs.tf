@@ -1,4 +1,3 @@
-# EC2 Outputs
 output "ec2_instance_id" {
   value       = aws_instance.main.id
   description = "The ID of the EC2 instance"
@@ -7,6 +6,14 @@ output "ec2_instance_id" {
 output "ec2_public_ip" {
   value       = aws_instance.main.public_ip
   description = "The public IP of the EC2 instance"
+}
+
+output "frontend_dns" {
+  value = aws_route53_record.frontend_record.fqdn
+}
+
+output "backend_dns" {
+  value = aws_route53_record.backend_record.fqdn
 }
 
 # S3 Outputs
@@ -23,5 +30,5 @@ output "s3_user_access_key" {
 output "s3_user_secret_key" {
   value       = aws_iam_access_key.s3_user_access_key.secret
   description = "Secret access key for the IAM user"
-  sensitive   = true
+  sensitive   = true # TODO: How to get this value?
 }
