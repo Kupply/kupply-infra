@@ -77,5 +77,5 @@ jobs:
       - name: Encrypt and Show IAM Secret Access Key
         run: |
           s3_secret_key=$(terraform output -raw s3_user_secret_key)
-          encrypted_secret=$(echo $s3_secret_key | openssl enc -aes-256-cbc -a -salt -pass pass:${{ secrets.ENCRYPTION_KEY }})
+          encrypted_secret=$(echo $s3_secret_key | openssl enc -aes-256-cbc -a -salt -pbkdf2 -pass pass:${{ secrets.ENCRYPTION_KEY }})
           echo "Encrypted secret: $encrypted_secret"
