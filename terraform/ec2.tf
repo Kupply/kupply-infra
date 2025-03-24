@@ -19,11 +19,5 @@ resource "aws_instance" "main" {
               # Install Nginx
               sudo yum install nginx -y
               sudo systemctl start nginx
-              # Install Certbot
-              # sudo dnf install -y augeas-libs
-              # sudo python3 -m venv /opt/certbot/
-              # sudo /opt/certbot/bin/pip install --upgrade pip
-              # sudo /opt/certbot/bin/pip install certbot
-              # sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot
               EOF
 }
