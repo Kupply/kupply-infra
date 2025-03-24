@@ -15,9 +15,12 @@ resource "aws_instance" "main" {
               sudo yum update -y
               sudo yum install docker -y
               sudo service docker start
+              sudo systemctl enable docker
               sudo usermod -aG docker ec2-user
+
               # Install Nginx
               sudo yum install nginx -y
               sudo systemctl start nginx
+              sudo systemctl enable nginx
               EOF
 }
