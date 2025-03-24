@@ -6,7 +6,7 @@ resource "aws_instance" "main" {
   security_groups = [aws_security_group.allow_web.id]
 
   tags = {
-    Name = "kupply-app"
+    Name = "kupply-instance"
   }
 
   user_data = <<-EOF
