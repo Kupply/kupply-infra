@@ -2,8 +2,7 @@ resource "aws_instance" "main" {
   ami           = var.ami
   instance_type = var.instance_type
   subnet_id     = aws_subnet.public.id
-
-  security_groups = [aws_security_group.allow_web.id]
+  vpc_security_group_ids = [aws_security_group.allow_web.id]
 
   tags = {
     Name = "kupply-instance"

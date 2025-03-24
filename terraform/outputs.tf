@@ -8,6 +8,11 @@ output "ec2_public_ip" {
   description = "The public IP of the EC2 instance"
 }
 
+output "ec2_fixed_ip" {
+  value = aws_eip.main.public_ip
+}
+
+
 # S3 Outputs
 output "s3_bucket_name" {
   value       = aws_s3_bucket.main.bucket
