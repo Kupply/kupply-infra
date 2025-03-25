@@ -8,24 +8,23 @@ resource "aws_instance" "main" {
     Name = "kupply-instance"
   }
 
-  user_data = <<-EOF
-    #!/bin/bash
-    # Install Docker
-    sudo yum update -y
-    sudo yum install docker -y
-    sudo service docker start
-    sudo systemctl enable docker
-    sudo usermod -aG docker ec2-user
+  user_data = <<EOF
+#!/bin/bash
+# Install Docker
+sudo yum update -y
+sudo yum install docker -y
+sudo service docker start
+sudo systemctl enable docker
+sudo usermod -aG docker ec2-user
 
-    # Install Docker Compose
-    DOCKER_COMPOSE_VERSION="v2.34.0"
-    sudo curl -L "https://github.com/docker/compose/releases/download/\${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+# Install Docker Compose
+DOCKER_COMPOSE_VERSION="v2.34.0"
+sudo curl -L "https://github.com/docker/compose/releases/download/\${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
-    sudo chmod +x /usr/local/bin/docker-compose
-
-    # Install Nginx
-    sudo yum install nginx -y
-    sudo systemctl start nginx
-    sudo systemctl enable nginx
-  EOF
+# Install Nginx
+sudo yum install nginx -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+EOF
 }
